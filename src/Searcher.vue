@@ -1,59 +1,28 @@
 <template>
-  <AutocompleteField
+  <VAutocomplete
     v-model="item"
     v-model:search="search"
     return-object
     no-filter
     autocomplete="false"
-    :hide-no-data="hideNoData"
+    hide-no-data
     :loading="loading"
-    :item-title="(v) => itemTitle(v, searchArgs || {})"
+    :item-title="(v) => itemTitle(v)"
     :items="items"
     :no-data-text="loading ? 'Searching...' : 'No Data'"
     v-bind="$attrs"
-  >
-    <template v-if="$slots.item" #item="slotProps">
-      <slot name="item" v-bind="slotProps" />
-    </template>
-    <template v-if="$slots['no-data']" #no-data>
-      <slot name="no-data" />
-    </template>
-    <template v-if="$slots.label" #label>
-      <slot name="label" />
-    </template>
-    <template v-if="$slots.message" #message="slotProps">
-      <slot name="message" v-bind="slotProps" />
-    </template>
-    <template v-if="$slots.prepend" #prepend>
-      <slot name="prepend" />
-    </template>
-    <template v-if="$slots['append-inner']" #append-inner>
-      <slot name="append-inner" />
-    </template>
-    <template v-if="$slots.append" #append>
-      <slot name="append" />
-    </template>
-    <template v-if="$slots['prepend-inner']" #prepend-inner>
-      <slot name="prepend-inner" />
-    </template>
-  </AutocompleteField>
+  />
 </template>
 
 <script setup>
-import { ref, toRef, watch } from "vue";
-import AutocompleteField from "./AutocompleteField.vue";
+import { ref, watch } from "vue";
+import { VAutocomplete } from "vuetify/components";
 
 const props = defineProps({
-  hideNoData: { type: Boolean, default: true },
   modelValue: {
     type: Object,
     required: false,
     default: () => {},
-  },
-  searchArgs: {
-    type: Object,
-    required: false,
-    default: null,
   },
 });
 
