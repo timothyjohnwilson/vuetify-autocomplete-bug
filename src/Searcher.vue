@@ -83,13 +83,26 @@ function debounceAndSearch() {
 }
 
 async function fetchItems() {
+  if (!search.value) return;
+  if (
+    items.value.some(
+      (v) => search.value === itemTitle(v, props.searchArgs || {})
+    ) &&
+    items.value.length === 1
+  ) {
+    return;
+  }
+
   loading.value = true;
   try {
     const result = await fetchResults(search.value, props.searchArgs || {});
 
     items.value.splice(0, items.value.length);
     items.value.push(...result);
-    console.log(items.value);
+    console.log(items.value); // see how data gets updated here?
+    setTimeout(() => {
+      items.value.push({ email: "test3@test.com", name: "Test 3", id: 3 });
+    }, 100);
   } catch (e) {
     snackbar.showErrorSnackbar({ message: parseErrorMessage(e) });
   } finally {
